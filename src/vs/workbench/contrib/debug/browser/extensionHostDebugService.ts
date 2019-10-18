@@ -15,12 +15,14 @@ import { IChannel } from 'vs/base/parts/ipc/common/ipc';
 import { Event } from 'vs/base/common/event';
 import { IProcessEnvironment } from 'vs/base/common/platform';
 import { URI } from 'vs/base/common/uri';
+import { IHostService } from 'vs/workbench/services/host/browser/host';
 
 class BrowserExtensionHostDebugService extends ExtensionHostDebugChannelClient implements IExtensionHostDebugService {
 
 	constructor(
 		@IRemoteAgentService remoteAgentService: IRemoteAgentService,
-		@IEnvironmentService environmentService: IEnvironmentService
+		@IEnvironmentService environmentService: IEnvironmentService,
+		@IHostService hostService: IHostService
 	) {
 		const connection = remoteAgentService.getConnection();
 
@@ -37,7 +39,7 @@ class BrowserExtensionHostDebugService extends ExtensionHostDebugChannelClient i
 
 		this._register(this.onReload(event => {
 			if (environmentService.isExtensionDevelopment && environmentService.debugExtensionHost.debugId === event.sessionId) {
-				window.location.reload();
+				hostService.reload();
 			}
 		}));
 		this._register(this.onClose(event => {

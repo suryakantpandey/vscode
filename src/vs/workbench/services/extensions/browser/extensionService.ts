@@ -56,8 +56,11 @@ export class ExtensionService extends AbstractExtensionService implements IExten
 			productService,
 		);
 
+		// WORKS OK WITH TIMEOUT?!
+		// setTimeout(() => {
 		this._initialize();
 		this._initFetchFileSystem();
+		// });
 	}
 
 	dispose(): void {
